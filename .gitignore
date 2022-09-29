@@ -1,0 +1,30 @@
+# OS Metadata files
+.DS_Store
+
+# Temporary files
+*.swp
+coverage.out
+
+# Build
+bin/
+codex-darwin-amd64
+codex-linux-amd64
+codex-amd64
+tmp/
+summary.md
+
+# VS Code
+.history
+__debug_bin
+*/debug.test
+
+# devenv
+devenv/token_sign
+devenv/token_sign.pub
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+venv

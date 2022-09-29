@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Game Server (example)",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}",
+            "env": {
+                "PORT": "1337",
+                "CLIENT_ID": "303cfee3-a862-4b07-bfb6-3c2dac9c5483",
+                "CLIENT_SECRET": "password_here", // DON'T COMMIT A REAL PASSWORD TO THE REPO
+                "GAMETITLE_ID": "f68f7515-4505-42d1-b059-eeec63555071"
+            }, 
+        },
+    ],
+}
