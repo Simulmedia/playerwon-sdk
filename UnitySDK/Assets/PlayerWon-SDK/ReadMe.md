@@ -1,9 +1,8 @@
-##PlayerWON-SDK
-##https://www.playerwon.com/
+# PlayerWON-SDK
 
-##Installation Instructions:
+# Installation Instructions:
     
-###From UnityPackage:
+### From Unity Package:
         
 1. Open the Unity Editor
 2. Click Assets->Import Package->Custom Package
@@ -11,7 +10,7 @@
 4. Make sure everything in the PlayerWON-SDK folder is selected
 5. Click import
 
-###From Unity Asset Store:
+### From Unity Asset Store:
 
 1. Open the Unity Editor
 2. Clicked Window->Package Manager
@@ -21,9 +20,9 @@
 6. Click Import
 
 
-##Integration Instructions:
+## Integration Instructions:
 
-#####The PlayerWON-SDK provides an example scene with events and methods set up for reference.
+#### The PlayerWON-SDK provides an example scene with events and methods set up for reference.
 
 1. Make sure the object you wish to display ads on is using the PlayerWONRenderTexture
 2. Drag the PlayerWON.prefab into a scene
@@ -31,7 +30,7 @@
 4. Make sure to use the PlayerWON namespace in the new script
 5. Access the Bridge by using Bridge.Instance
 
-###Important Methods:
+### Important Methods:
 
 Init() - This provides initial telemetry data to PlayerWON if you have allowed sending of such data in the PlayerWON.Bridge inspector
 
