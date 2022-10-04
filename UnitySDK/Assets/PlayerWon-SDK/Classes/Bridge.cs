@@ -1020,7 +1020,7 @@ namespace PlayerWON
             }
             else if (percentage >= 75 && percentage < 100 && !threeQuartersInvoked)
             {
-                progressEvent.Invoke(authToken, opportunity, (75);
+                progressEvent.Invoke(authToken, opportunity, (75));
                 threeQuartersInvoked = true;
             }
         }
