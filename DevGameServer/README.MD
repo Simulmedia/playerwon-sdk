@@ -26,7 +26,9 @@ Example for a Windows 64-bit build:
 cd DevGameServer/cmd/gameserver
 env GOOS=windows GOARCH=amd64 go build
 ```
-Run one of the binaries in `/bin`. Supported platforms are:
+This will generate the binary that you can then run.
+
+Supported platforms are:
 - Windows 10/11
 - Linux
 - MacOS
