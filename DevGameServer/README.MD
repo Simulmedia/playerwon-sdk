@@ -17,6 +17,15 @@ To run, the game server requires the following environment variables to be set:
 `export PORT=1122`
 
 ## Running the server
+Download the latest release from Github. `DevGameServer` folder will contain the binaries for each platform.
+
+### Building from go
+If you want to build from source you can use `launch.json` to start the server in VSCode or using the go compiler:
+```
+Example for a Windows 64-bit build:
+cd DevGameServer/cmd/gameserver
+env GOOS=windows GOARCH=amd64 go build
+```
 Run one of the binaries in `/bin`. Supported platforms are:
 - Windows 10/11
 - Linux
