@@ -132,7 +132,7 @@ namespace PlayerWON
         /// <param name="_media_files">Media files. True indicates all encoded video URLs should be returned</param>
         /// <param name="_max_length">Max length. Represents the maximum time, in seconds, for an ad to play</param>
         public ClientDetails(SupportedCountries _country, string _idfa, PlatformType _plat, SupportedLanguages _lang, string _ip = "127.0.0.1", int _w = 1920, int _h = 1080, string _pid = "Unknown", PlayerIDType _pidType = PlayerIDType.Steam, string _device = "Unknown", int _coppa = 0,
-            int _underage = 0, int _age = 18, string _slot_id = "", int _ls = 0, Currency _lsv = null, CurrencyArray _rv = null, int _gs = 0, int _lt = 0, int _gdpr = 0, int _gdpr_consent = 0, bool _media_files = false, int _max_length = 0)
+            int _underage = 0, int _age = 18, string _slot_id = "", int _ls = 0, Currency _lsv = null, CurrencyArray _rv = null, int _gs = 0, int _lt = 0, int _gdpr = 0, int _gdpr_consent = 0, bool _media_files = false, int? _max_length = null)
             : this(DataLibrary.CountryDictionary[_country], _idfa, DataLibrary.PlatformDictionary[_plat], DataLibrary.LanguageDictionary[_lang], _ip, _w, _h, _pid, DataLibrary.IDTypeDictionary[_pidType],
                   _device, _coppa, _underage, _age, _slot_id, _ls, _lsv, _rv, _gs, _lt, _gdpr, _gdpr_consent, _media_files, _max_length)
         {
