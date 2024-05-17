@@ -64,7 +64,7 @@ public class ExampleScript : MonoBehaviour
 
     public void GetOpportunity()
     {
-        ClientDetails details = new ClientDetails(SupportedCountries.United_States, IDFA, PlatformType.PC, SupportedLanguages.English);
+        ClientDetails details = new ClientDetails(SupportedCountries.United_States, IDFA, PlatformType.PC, SupportedLanguages.English, _coppa: 0, _underage: 0, _gdpr: 0);
         if(Bridge.Instance)
         {
             Bridge.Instance.SetClientDetails(details);

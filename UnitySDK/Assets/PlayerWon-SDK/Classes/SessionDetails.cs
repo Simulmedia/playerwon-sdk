@@ -52,9 +52,18 @@ namespace PlayerWON
         [SerializeField]
         private int gs;
 
+        [SerializeField]
+        private int lt;
+
+        [SerializeField]
+        private int gdpr;
+
+        [SerializeField]
+        private int gdpr_consent;
+
         private SessionDetails(string _country, string _plat, string _lang, string _pid = null, string _pid_type = null, string _device = null, int _coppa = 0,
             int _underage = 0, int _age = 0, int _min_age = 0, int _max_age = 0, Gender _gg = Gender.n, int _ls = 0, Currency _lsv = null,
-            string _psd = null, int _gs = 0)
+            string _psd = null, int _gs = 0, int _lt = 0, int _gdpr = 0, int _gdpr_consent = 0)
         {
             country = _country;
             plat = _plat;
@@ -72,6 +81,9 @@ namespace PlayerWON
             lsv = _lsv;
             psd = _psd;
             gs = _gs;
+            lt = _lt;
+            gdpr = _gdpr;
+            gdpr_consent = _gdpr_consent;
         }
 
         /// <summary>
@@ -93,11 +105,14 @@ namespace PlayerWON
         /// <param name="_lsv">Lifetime Spend value</param>
         /// <param name="_psd">The date the player first played the game</param>
         /// <param name="_gs">Is this on the game server?</param>
+        /// <param name="_lt">Limit tracking. 1 indicates the player/client has opted for limited ad tracking</param>
+        /// <param name="_gdpr">GDPR. 1 indicates player/client is in a country under GDPR jurisdiction</param>
+        /// <param name="_gdpr_consent">GDPR consent. 1 indicates player/client has given consent. Only valid if _gdpr is 1</param>
         public SessionDetails(SupportedCountries _country, PlatformType _plat, SupportedLanguages _lang, string _pid = "Unknown", PlayerIDType _pid_type = PlayerIDType.Steam, string _device = "Unknown", int _coppa = 0,
             int _underage = 0, int _age = 18, int _min_age = 0, int _max_age = 100, Gender _gg = Gender.n, int _ls = 0, Currency _lsv = null,
-            string _psd = null, int _gs = 0)
+            string _psd = null, int _gs = 0, int _lt = 0, int _gdpr = 0, int _gdpr_consent = 0)
             : this(DataLibrary.CountryDictionary[_country], DataLibrary.PlatformDictionary[_plat], DataLibrary.LanguageDictionary[_lang], _pid, DataLibrary.IDTypeDictionary[_pid_type],
-                 _device, _coppa, _underage, _age, _min_age, _max_age, _gg, _ls, _lsv, _psd, _gs)
+                 _device, _coppa, _underage, _age, _min_age, _max_age, _gg, _ls, _lsv, _psd, _gs, _lt, _gdpr, _gdpr_consent)
         {
 
         }
