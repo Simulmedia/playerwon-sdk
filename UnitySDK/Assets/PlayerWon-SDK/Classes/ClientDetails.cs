@@ -61,8 +61,24 @@ namespace PlayerWON
         [SerializeField]
         private int gs;
 
-        private ClientDetails(string _country, string _idfa, string _plat, string _lang, string _ip = null, int _w = 0, int _h = 0, string _pid = null, string _pidType = null, string _device = null, int _coppa = 0,
-            int _underage = 0, int _age = 0, string _slot_id = null, int _ls = 0, Currency _lsv = null, CurrencyArray _rv = null, int _gs = 0)
+        [SerializeField]
+        private int lt;
+
+        [SerializeField]
+        private int gdpr;
+
+        [SerializeField]
+        private int gdpr_consent;
+
+        [SerializeField]
+        private bool media_files;
+
+        [SerializeField]
+        private int? max_length;
+
+        private ClientDetails(string _country, string _idfa, string _plat, string _lang, string _ip = null, int _w = 0, int _h = 0, string _pid = null, string _pidType = null, string _device = null,
+            int _coppa = 0, int _underage = 0, int _age = 0, string _slot_id = null, int _ls = 0, Currency _lsv = null, CurrencyArray _rv = null, int _gs = 0, int _lt = 0, int _gdpr = 0, int _gdpr_consent = 0, bool _media_files = false,
+            int? _max_length = null)
         {
             country = _country;
             idfa = _idfa;
@@ -82,6 +98,11 @@ namespace PlayerWON
             lsv = _lsv;
             rv = _rv;
             gs = _gs;
+            lt = _lt;
+            gdpr = _gdpr;
+            gdpr_consent = _gdpr_consent;
+            media_files = _media_files;
+            max_length = _max_length;
         }
 
         /// <summary>
@@ -105,10 +126,15 @@ namespace PlayerWON
         /// <param name="_lsv">Lifetime Spend value</param>
         /// <param name="_rv">The rewards given to the player for watching the ad</param>
         /// <param name="_gs">Is this on the game server?</param>
+        /// <param name="_lt">Limit tracking. 1 indicates the player/client has opted for limited ad tracking</param>
+        /// <param name="_gdpr">GDPR. 1 indicates player/client is in a country under GDPR jurisdiction</param>
+        /// <param name="_gdpr_consent">GDPR consent. 1 indicates player/client has given consent. Only valid if _gdpr is 1</param>
+        /// <param name="_media_files">Media files. True indicates all encoded video URLs should be returned</param>
+        /// <param name="_max_length">Max length. Represents the maximum time, in seconds, for an ad to play</param>
         public ClientDetails(SupportedCountries _country, string _idfa, PlatformType _plat, SupportedLanguages _lang, string _ip = "127.0.0.1", int _w = 1920, int _h = 1080, string _pid = "Unknown", PlayerIDType _pidType = PlayerIDType.Steam, string _device = "Unknown", int _coppa = 0,
-            int _underage = 0, int _age = 18, string _slot_id = "", int _ls = 0, Currency _lsv = null, CurrencyArray _rv = null, int _gs = 0)
+            int _underage = 0, int _age = 18, string _slot_id = "", int _ls = 0, Currency _lsv = null, CurrencyArray _rv = null, int _gs = 0, int _lt = 0, int _gdpr = 0, int _gdpr_consent = 0, bool _media_files = false, int? _max_length = null)
             : this(DataLibrary.CountryDictionary[_country], _idfa, DataLibrary.PlatformDictionary[_plat], DataLibrary.LanguageDictionary[_lang], _ip, _w, _h, _pid, DataLibrary.IDTypeDictionary[_pidType],
-                  _device, _coppa, _underage, _age, _slot_id, _ls, _lsv, _rv, _gs)
+                  _device, _coppa, _underage, _age, _slot_id, _ls, _lsv, _rv, _gs, _lt, _gdpr, _gdpr_consent, _media_files, _max_length)
         {
 
         }
