@@ -116,5 +116,37 @@ namespace PlayerWON
         {
 
         }
+
+
+        /// <summary>
+        /// Constructor for Session Details
+        /// </summary>
+        /// <param name="_country">Two letter ISO-3166 country code</param>
+        /// <param name="_plat">The platform the player/client is on</param>
+        /// <param name="_lang">The language the player/client is using</param>
+        /// <param name="_pid">Player GamerTag</param>
+        /// <param name="_pid_type">The type of GamerTag</param>
+        /// <param name="_device">The player/client's device name</param>
+        /// <param name="_coppa">COPPA, Players/Clients above 13 are marked as 0, Players/Clients below are marked as 1</param>
+        /// <param name="_underage">Is the player/client underage</param>
+        /// <param name="_age">Player/Client's age</param>
+        /// <param name="_min_age">Minimum age this player/client can be</param>
+        /// <param name="_max_age">Maximum age this player/client can be</param>
+        /// <param name="_gg">Player/Client's gender</param>
+        /// <param name="_ls">Lifetime Spending. 1 indicates the player/client has made in-game purchases with real money</param>
+        /// <param name="_lsv">Lifetime Spend value</param>
+        /// <param name="_psd">The date the player first played the game</param>
+        /// <param name="_gs">Is this on the game server?</param>
+        /// <param name="_lt">Limit tracking. 1 indicates the player/client has opted for limited ad tracking</param>
+        /// <param name="_gdpr">GDPR. 1 indicates player/client is in a country under GDPR jurisdiction</param>
+        /// <param name="_gdpr_consent">GDPR consent. 1 indicates player/client has given consent. Only valid if _gdpr is 1</param>
+        public SessionDetails(string _country, PlatformType _plat, SupportedLanguages _lang, string _pid = "Unknown", PlayerIDType _pid_type = PlayerIDType.Steam, string _device = "Unknown", int _coppa = 0,
+            int _underage = 0, int _age = 18, int _min_age = 0, int _max_age = 100, Gender _gg = Gender.n, int _ls = 0, Currency _lsv = null,
+            string _psd = null, int _gs = 0, int _lt = 0, int _gdpr = 0, int _gdpr_consent = 0)
+            : this(_country, DataLibrary.PlatformDictionary[_plat], DataLibrary.LanguageDictionary[_lang], _pid, DataLibrary.IDTypeDictionary[_pid_type],
+                 _device, _coppa, _underage, _age, _min_age, _max_age, _gg, _ls, _lsv, _psd, _gs, _lt, _gdpr, _gdpr_consent)
+        {
+
+        }
     }
 }
