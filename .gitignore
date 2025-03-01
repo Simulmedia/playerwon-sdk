@@ -28,3 +28,4 @@ devenv/token_sign.pub
 .\#*
 
 venv
+UnrealSDK/.vsconfig
