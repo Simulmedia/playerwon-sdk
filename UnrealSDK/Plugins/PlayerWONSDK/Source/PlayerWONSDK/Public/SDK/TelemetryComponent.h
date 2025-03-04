@@ -7,6 +7,7 @@
 #include "SDK/DataLibrary.h"
 #include "TelemetryComponent.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogPlayerWON, Log, All);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FErrorCaught, FString, ErrorMessage);
 

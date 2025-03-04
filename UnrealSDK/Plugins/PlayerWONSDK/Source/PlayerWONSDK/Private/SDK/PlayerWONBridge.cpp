@@ -91,7 +91,7 @@ void APlayerWONBridge::RetrieveOpportunity(FString Token, FClientDetails Details
 				TelemetryComponent->CatchError(TEXT("PlayerWONBridge::RetrieveOpportunity - Invalid ClientCredentials."));
 				return;
 			}
-			UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::RetrieveOpportunity - Invalid ClientCredentials."));
+			UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::RetrieveOpportunity - Invalid ClientCredentials."));
 			return;
 		}
 
@@ -100,7 +100,7 @@ void APlayerWONBridge::RetrieveOpportunity(FString Token, FClientDetails Details
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::RetrieveOpportunity - Invalid AuthorizationToken."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::RetrieveOpportunity - Invalid AuthorizationToken."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::RetrieveOpportunity - Invalid AuthorizationToken."));
 		return;
 	}
 
@@ -126,7 +126,7 @@ void APlayerWONBridge::CallSession(FSessionDetails Details, FString Token)
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::CallSession - AuthorizationToken not valid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::CallSession - AuthorizationToken not valid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::CallSession - AuthorizationToken not valid."));
 		return;
 	}
 
@@ -137,7 +137,7 @@ void APlayerWONBridge::CallSession(FSessionDetails Details, FString Token)
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::CallSession - SessionDetails not valid."));			
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::CallSession - SessionDetails not valid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::CallSession - SessionDetails not valid."));
 		return;
 	}
 
@@ -183,7 +183,7 @@ void APlayerWONBridge::PlayOpportunity()
 				TelemetryComponent->CatchError(TEXT("PlayerWONBridge::PlayOpportunity - MediaPlayer cannot play given URL"));
 				return;
 			}
-			UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::PlayOpportunity - MediaPlayer cannot play given URL"));
+			UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::PlayOpportunity - MediaPlayer cannot play given URL"));
 			return;
 		}
 
@@ -192,7 +192,7 @@ void APlayerWONBridge::PlayOpportunity()
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::PlayOpportunity - Opportunity not valid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::PlayOpportunity - Opportunity not valid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::PlayOpportunity - Opportunity not valid."));
 		return;
 	}
 	
@@ -201,7 +201,7 @@ void APlayerWONBridge::PlayOpportunity()
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::PlayOpportunity - MediaPlayer not set."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::PlayOpportunity - MediaPlayer not set."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::PlayOpportunity - MediaPlayer not set."));
 }
 
 void APlayerWONBridge::StopOpportunity(EReasonForAbort Reason)
@@ -226,7 +226,7 @@ void APlayerWONBridge::StopOpportunity(EReasonForAbort Reason)
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::StopOpportunity - Opportunity not valid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::StopOpportunity - Opportunity not valid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::StopOpportunity - Opportunity not valid."));
 		return;
 	}
 
@@ -235,7 +235,7 @@ void APlayerWONBridge::StopOpportunity(EReasonForAbort Reason)
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::StopOpportunity - MediaPlayer not set."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::StopOpportunity - MediaPlayer not set."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::StopOpportunity - MediaPlayer not set."));
 }
 
 FString APlayerWONBridge::GetAuthToken()
@@ -255,7 +255,7 @@ UMediaPlayer* APlayerWONBridge::GetMediaPlayer()
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::GetMediaPlayer - MediaPlayer not set."));
 		return nullptr;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::GetMediaPlayer - MediaPlayer not set."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::GetMediaPlayer - MediaPlayer not set."));
 	return nullptr;
 }
 
@@ -266,7 +266,7 @@ UTelemetryComponent* APlayerWONBridge::GetTelemetryComponent()
 		return TelemetryComponent;
 	}
 
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::GetTelemetryComponent - TelemetryComponent not set."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::GetTelemetryComponent - TelemetryComponent not set."));
 	return nullptr;
 }
 
@@ -283,7 +283,7 @@ void APlayerWONBridge::SetSendTelemetryData(bool InSendTelemetryData)
 		return;
 	}
 
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::SetSendTelemetryData - TelemetryComponent not set."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::SetSendTelemetryData - TelemetryComponent not set."));
 }
 
 void APlayerWONBridge::OnAuthorizationResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -299,7 +299,7 @@ void APlayerWONBridge::OnAuthorizationResponse(FHttpRequestPtr Request, FHttpRes
 		TelemetryComponent->CatchError(TEXT("Blueprint authorization request was not successsful."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("Blueprint authorization request was not successsful."));
+	UE_LOG(LogPlayerWON, Error, TEXT("Blueprint authorization request was not successsful."));
 }
 
 void APlayerWONBridge::OnOpportunityResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -328,7 +328,7 @@ void APlayerWONBridge::OnOpportunityResponse(FHttpRequestPtr Request, FHttpRespo
 				TelemetryComponent->CatchError(TEXT("PlayerWONBridge - Opportunity is not valid."));
 				return;
 			}
-			UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge - Opportunity is not valid."));
+			UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge - Opportunity is not valid."));
 			return;
 		}
 		if (TelemetryComponent)
@@ -336,7 +336,7 @@ void APlayerWONBridge::OnOpportunityResponse(FHttpRequestPtr Request, FHttpRespo
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge - Could not deserialize Opportunity from Json"));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge - Could not deserialize Opportunity from Json"));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge - Could not deserialize Opportunity from Json"));
 		return;
 	}
 	if (TelemetryComponent)
@@ -344,7 +344,7 @@ void APlayerWONBridge::OnOpportunityResponse(FHttpRequestPtr Request, FHttpRespo
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OnOpportunityResponse - Opportunity request failed."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OnOpportunityResponse - Opportunity request failed."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OnOpportunityResponse - Opportunity request failed."));
 }
 
 //AddToWWWForm
@@ -450,7 +450,7 @@ void APlayerWONBridge::OpportunityAPI(FString Token, FClientDetails Details)
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OpportunityAPI - ClientDetails could not be serialized to Json."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OpportunityAPI - ClientDetails could not be serialized to Json."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OpportunityAPI - ClientDetails could not be serialized to Json."));
 }
 
 void APlayerWONBridge::OnSessionResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -465,7 +465,7 @@ void APlayerWONBridge::OnSessionResponse(FHttpRequestPtr Request, FHttpResponseP
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OnSessionResponse - Session request failed."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OnSessionResponse - Session request failed."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OnSessionResponse - Session request failed."));
 }
 
 void APlayerWONBridge::OnAbortResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -480,7 +480,7 @@ void APlayerWONBridge::OnAbortResponse(FHttpRequestPtr Request, FHttpResponsePtr
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OnAbortRespoinse - Abort request failed."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OnAbortRespoinse - Abort request failed."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OnAbortRespoinse - Abort request failed."));
 }
 
 void APlayerWONBridge::OnCompleteResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -495,7 +495,7 @@ void APlayerWONBridge::OnCompleteResponse(FHttpRequestPtr Request, FHttpResponse
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OnCompleteResponse - Complete request failed."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OnCompleteResponse - Complete request failed."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OnCompleteResponse - Complete request failed."));
 }
 
 void APlayerWONBridge::OnProgressResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -510,7 +510,7 @@ void APlayerWONBridge::OnProgressResponse(FHttpRequestPtr Request, FHttpResponse
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OnProgressResponse - Progress request failed."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OnProgressResponse - Progress request failed."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OnProgressResponse - Progress request failed."));
 }
 
 void APlayerWONBridge::OnStartResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -525,7 +525,7 @@ void APlayerWONBridge::OnStartResponse(FHttpRequestPtr Request, FHttpResponsePtr
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OnStartResponse - Start request failed."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OnStartResponse - Start request failed."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OnStartResponse - Start request failed."));
 }
 
 void APlayerWONBridge::OnMediaPrepared(FString Media)
@@ -555,7 +555,7 @@ void APlayerWONBridge::OnMediaComplete()
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::OnMediaComplete - MediaPlayer not set."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::OnMediaComplete - MediaPlayer not set."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::OnMediaComplete - MediaPlayer not set."));
 }
 
 void APlayerWONBridge::AbortAPI(EReasonForAbort Reason, int32 SecondsIntoOpportunity)
@@ -567,7 +567,7 @@ void APlayerWONBridge::AbortAPI(EReasonForAbort Reason, int32 SecondsIntoOpportu
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::AbortAPI - AuthorizationToken is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::AbortAPI - AuthorizationToken is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::AbortAPI - AuthorizationToken is invalid."));
 		return;
 	}
 
@@ -578,7 +578,7 @@ void APlayerWONBridge::AbortAPI(EReasonForAbort Reason, int32 SecondsIntoOpportu
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::AbortAPI - Opportunity is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::AbortAPI - Opportunity is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::AbortAPI - Opportunity is invalid."));
 		return;
 	}
 
@@ -607,7 +607,7 @@ void APlayerWONBridge::CompleteAPI()
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::CompleteAPI - AuthorizationToken is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::CompleteAPI - AuthorizationToken is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::CompleteAPI - AuthorizationToken is invalid."));
 		return;
 	}
 
@@ -618,7 +618,7 @@ void APlayerWONBridge::CompleteAPI()
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::CompleteAPI - Opportunity is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::CompleteAPI - Opportunity is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::CompleteAPI - Opportunity is invalid."));
 		return;
 	}
 
@@ -643,7 +643,7 @@ void APlayerWONBridge::ProgressAPI(int32 PercentageOfProgress)
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::ProgressAPI - AuthorizationToken is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::ProgressAPI - AuthorizationToken is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::ProgressAPI - AuthorizationToken is invalid."));
 		return;
 	}
 
@@ -654,7 +654,7 @@ void APlayerWONBridge::ProgressAPI(int32 PercentageOfProgress)
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::ProgressAPI - Opportunity is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::ProgressAPI - Opportunity is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::ProgressAPI - Opportunity is invalid."));
 		return;
 	}
 
@@ -681,7 +681,7 @@ void APlayerWONBridge::StartAPI()
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::StartAPI - AuthorizationToken is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::StartAPI - AuthorizationToken is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::StartAPI - AuthorizationToken is invalid."));
 		return;
 	}
 
@@ -692,7 +692,7 @@ void APlayerWONBridge::StartAPI()
 			TelemetryComponent->CatchError(TEXT("PlayerWONBridge::StartAPI - Opportunity is invalid."));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::StartAPI - Opportunity is invalid."));
+		UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::StartAPI - Opportunity is invalid."));
 		return;
 	}
 
@@ -754,7 +754,7 @@ void APlayerWONBridge::SetAuthorizationToken(FString Token)
 			TelemetryComponent->CatchError(TEXT("APlayerWONBridge::SetAuthorizationToken - Invalid token"));
 			return;
 		}
-		UE_LOG(LogTemp, Error, TEXT("APlayerWONBridge::SetAuthorizationToken - Invalid token"));
+		UE_LOG(LogPlayerWON, Error, TEXT("APlayerWONBridge::SetAuthorizationToken - Invalid token"));
 		return;
 	}
 
@@ -871,6 +871,6 @@ void APlayerWONBridge::SessionAPI(FString Token, FSessionDetails Details)
 		TelemetryComponent->CatchError(TEXT("PlayerWONBridge::Session - SessionDetails could not be serialized to Json."));
 		return;
 	}
-	UE_LOG(LogTemp, Error, TEXT("PlayerWONBridge::Session - SessionDetails could not be serialized to Json."));
+	UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge::Session - SessionDetails could not be serialized to Json."));
 }
 
