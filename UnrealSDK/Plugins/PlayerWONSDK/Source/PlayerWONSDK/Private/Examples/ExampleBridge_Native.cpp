@@ -107,18 +107,12 @@ void AExampleBridge_Native::OnOpportunityCompleted()
 
 void AExampleBridge_Native::OnOpportunityProgress(int32 PercentageOfProgress)
 {
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(PercentageOfProgress));
-	}
+	UE_LOG(LogPlayerWON, Display, TEXT("Ad Progress: %s"), *FString::FromInt(PercentageOfProgress));
 }
 
 void AExampleBridge_Native::PrintError(FString Message)
 {
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, Message);
-	}
+	UE_LOG(LogPlayerWON, Error, TEXT("%s"), *Message);
 }
 
 void AExampleBridge_Native::StopAd()

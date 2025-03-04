@@ -6,6 +6,8 @@
 #include "Runtime/Online/HTTP/Public/Http.h"
 #include "UObject/Stack.h"
 
+DEFINE_LOG_CATEGORY(LogPlayerWON);
+
 // Sets default values for this component's properties
 UTelemetryComponent::UTelemetryComponent()
 {
@@ -60,7 +62,7 @@ void UTelemetryComponent::SetSendTelemetryData(bool bSend)
 void UTelemetryComponent::CatchError(FString Message)
 {
 	ErrorCaughtEvent.Broadcast(Message);
-	UE_LOG(LogTemp, Error, TEXT("%s"), *Message);
+	UE_LOG(LogPlayerWON, Error, TEXT("%s"), *Message);
 
 	if (bSendTelemetryData)
 	{
