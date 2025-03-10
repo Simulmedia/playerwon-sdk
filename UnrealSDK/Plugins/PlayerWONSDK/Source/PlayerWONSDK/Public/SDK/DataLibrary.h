@@ -703,6 +703,35 @@ const TMap<ESupportedCountries, FString> CountriesMap = {
 /*************************** Structs ***************************/
 
 USTRUCT(BlueprintType, Blueprintable)
+struct FAuthorizationToken
+{
+    GENERATED_BODY()
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    FString AccessToken;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    FString TokenType;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 ExpiresIn;
+
+    FAuthorizationToken()
+    {
+        AccessToken = FString(TEXT(""));
+        TokenType = FString(TEXT(""));
+        ExpiresIn = 0;
+    }
+
+    FAuthorizationToken(FString InToken, FString InType, int32 InExpires)
+    {
+        AccessToken = InToken;
+        TokenType = InType;
+        ExpiresIn = InExpires;
+    }
+};
+
+USTRUCT(BlueprintType, Blueprintable)
 struct FCurrency
 {
     GENERATED_BODY()

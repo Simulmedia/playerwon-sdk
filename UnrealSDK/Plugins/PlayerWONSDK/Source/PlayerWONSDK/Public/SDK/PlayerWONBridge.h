@@ -41,14 +41,14 @@ public:
 	* @param IDFA - the identifier (not gamertag) of the client/player
 	*/
 	UFUNCTION(BlueprintCallable, Category = PLAYERWON)
-	void InitBridge(FString IDFA);
+	void InitBridge(FString InIDFA);
 
 	/* Function for blueprints that allows blueprint developers to authorize the clients/players.
 	*  This is done because HTTP requests are not supported in blueprints.
 	* @param ServerURL - The URL to the server that the HTTP request will call
 	*/
 	UFUNCTION(BlueprintCallable, Category = PLAYERWON)
-	void AuthorizeClient(FString ServerURL);
+	void AuthorizeClient(FString ServerURL, FString ClientID, FString ClientSecret, FString TID);
 
 	/* Called to set the ClientDetails so that you do not have to pass new ClientDetails into every method
 	* @param InClientDetails - A struct containing the client/player's details used to pick out the perfect Ad for them
@@ -137,6 +137,9 @@ public:
 
 //MediaPlayer Controls
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PLAYERWON)
+	bool bUsePhysicalMedia;
+
 	/* Plays the Ad retrieved from RetrieveOpportunity() */
 	UFUNCTION(BlueprintCallable, Category = PLAYERWON)
 	void PlayOpportunity();
@@ -192,6 +195,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = PLAYERWON)
 	class UMediaPlayer* MediaPlayer;
 
+	UPROPERTY(EditAnywhere, Category = PLAYERWON)
+	class UMediaSource* DefaultMediaSource;
 
 //Internal Variables
 
