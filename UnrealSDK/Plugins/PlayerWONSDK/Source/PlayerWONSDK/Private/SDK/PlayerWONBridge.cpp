@@ -12,6 +12,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Misc/Timespan.h"
 #include "Math/UnrealMathUtility.h"
+#include "Http.h"
 
 
 APlayerWONBridge::APlayerWONBridge()
@@ -60,14 +61,14 @@ void APlayerWONBridge::BeginPlay()
 }
 
 
-void APlayerWONBridge::InitBridge(FString IDFA)
+void APlayerWONBridge::InitBridge(FString InIDFA)
 {
 	if (TelemetryComponent)
 	{
 		FString EngineVersion = FEngineVersion().Current().ToString();
 		FString GameTitle = UKismetSystemLibrary::GetGameName();
 
-		TelemetryComponent->InitializeTelemetry(FInitializeMessage(IDFA, SDK_VERSION, EngineVersion, GameTitle, SDK_GUID.ToString(), TEXT("Initialize")));
+		TelemetryComponent->InitializeTelemetry(FInitializeMessage(InIDFA, SDK_VERSION, EngineVersion, GameTitle, SDK_GUID.ToString(), TEXT("Initialize")));
 	}
 }
 
@@ -150,9 +151,20 @@ void APlayerWONBridge::k2_CallSession(FSessionDetails Details, FString Token)
 }
 
 
-void APlayerWONBridge::AuthorizeClient(FString ServerURL)
+void APlayerWONBridge::AuthorizeClient(FString ServerURL, FString ClientID, FString ClientSecret, FString TID)
 {
 	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
+
+	FString AuthorizationBody;
+	AddToWWWForm(FString(TEXT("client_id")), ClientID, AuthorizationBody);
+	AddToWWWForm(FString(TEXT("grant_type")), FString(TEXT("client_credentials")), AuthorizationBody);
+	AddToWWWForm(FString(TEXT("client_secret")), ClientSecret, AuthorizationBody);
+	AddToWWWForm(FString(TEXT("tid")), TID, AuthorizationBody);
+	AddToWWWForm(FString(TEXT("expires_in")), FString::FromInt(2592000), AuthorizationBody);
+
+	Request->SetHeader(FString(TEXT("Content-Type")), FString(TEXT("application/x-www-form-urlencoded")));
+	Request->SetContentAsString(AuthorizationBody);
+
 	Request->OnProcessRequestComplete().BindUObject(this, &APlayerWONBridge::OnAuthorizationResponse);
 	Request->SetVerb(TEXT("POST"));
 	Request->SetURL(ServerURL);
@@ -169,6 +181,15 @@ void APlayerWONBridge::PlayOpportunity()
 {
 	if (MediaPlayer)
 	{
+		if (bUsePhysicalMedia)
+		{
+			if (DefaultMediaSource)
+			{
+				MediaPlayer->OpenSource(DefaultMediaSource);
+				MediaPlayer->Play();
+			}
+			return;
+		}
 		if (Opportunity.IsValid())
 		{
 
@@ -208,6 +229,12 @@ void APlayerWONBridge::StopOpportunity(EReasonForAbort Reason)
 {
 	if (MediaPlayer)
 	{
+		if (bUsePhysicalMedia)
+		{
+			MediaPlayer->Close();
+			return;
+		}
+
 		if (Opportunity.IsValid())
 		{
 			FTimespan Time = MediaPlayer->GetTime();
@@ -290,7 +317,19 @@ void APlayerWONBridge::OnAuthorizationResponse(FHttpRequestPtr Request, FHttpRes
 {
 	if (bWasSuccessful)
 	{
-		SetAuthorizationToken(Response->GetContentAsString());
+		FString ContentString;
+		TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
+		TSharedPtr<FJsonValue> JsonResponse;
+		if (FJsonSerializer::Deserialize(Reader, JsonResponse))
+		{
+			if(TSharedPtr<FJsonObject> ResponseObject = JsonResponse->AsObject())
+			{
+				ContentString = ResponseObject->GetStringField(TEXT("token_type"));
+				ContentString.Append(" ");
+				ContentString.Append(ResponseObject->GetStringField(TEXT("access_token")));		
+			}
+		}
+		SetAuthorizationToken(ContentString);
 		return;
 	}
 
@@ -306,30 +345,37 @@ void APlayerWONBridge::OnOpportunityResponse(FHttpRequestPtr Request, FHttpRespo
 {
 	if (bWasSuccessful)
 	{
+		UE_LOG(LogTemp, Error, TEXT("%s"), *Response->GetContentAsString());
 		TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 		TSharedPtr<FJsonValue> JsonResponse;
 		if (FJsonSerializer::Deserialize(Reader, JsonResponse))
 		{
-			TSharedPtr<FJsonObject> ResponseObject = JsonResponse->AsObject();
-			TArray<TSharedPtr<FJsonValue>> OpportunityArray = ResponseObject->GetArrayField(TEXT("opportunities"));
-			TSharedPtr<FJsonObject> FirstOpportunity = OpportunityArray[0]->AsObject();
-
-			Opportunity.CreativeURL = FirstOpportunity->GetStringField(TEXT("creativeURL"));
-			Opportunity.Length = FirstOpportunity->GetNumberField(TEXT("length"));
-			Opportunity.Receipt = FirstOpportunity->GetStringField(TEXT("receipt"));
-
-			if (Opportunity.IsValid())
+			if (TSharedPtr<FJsonObject> ResponseObject = JsonResponse->AsObject())
 			{
-				OpportunityRetrievedEvent.Broadcast(Opportunity);
-				return;
+				TArray<TSharedPtr<FJsonValue>> OpportunityArray = ResponseObject->GetArrayField(TEXT("opportunities"));
+				if (OpportunityArray.Num() > 0)
+				{
+					if (TSharedPtr<FJsonObject> FirstOpportunity = OpportunityArray[0]->AsObject())
+					{
+						Opportunity.CreativeURL = FirstOpportunity->GetStringField(TEXT("creativeURL"));
+						Opportunity.Length = FirstOpportunity->GetNumberField(TEXT("length"));
+						Opportunity.Receipt = FirstOpportunity->GetStringField(TEXT("receipt"));
+			
+						if (Opportunity.IsValid())
+						{
+							OpportunityRetrievedEvent.Broadcast(Opportunity);
+							return;
+						}
+						if (TelemetryComponent)
+						{
+							TelemetryComponent->CatchError(TEXT("PlayerWONBridge - Opportunity is not valid."));
+							return;
+						}
+						UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge - Opportunity is not valid."));
+						return;
+					}
+				}
 			}
-			if (TelemetryComponent)
-			{
-				TelemetryComponent->CatchError(TEXT("PlayerWONBridge - Opportunity is not valid."));
-				return;
-			}
-			UE_LOG(LogPlayerWON, Error, TEXT("PlayerWONBridge - Opportunity is not valid."));
-			return;
 		}
 		if (TelemetryComponent)
 		{
@@ -414,7 +460,7 @@ void APlayerWONBridge::OpportunityAPI(FString Token, FClientDetails Details)
 		LifetimeSpendingObject->SetNumberField(TEXT("val"), Details.LifetimeSpendingValue.Value);
 		LifetimeSpendingObject->SetNumberField(TEXT("d"), Details.LifetimeSpendingValue.DecimalPointDigitFromRight);
 		LifetimeSpendingObject->SetNumberField(TEXT("t"), Details.LifetimeSpendingValue.CurrencyType);
-
+	
 		DetailsObject->SetObjectField(TEXT("lsv"), LifetimeSpendingObject);
 	}
 	if (Details.RewardValues.Num() > 0)
@@ -427,14 +473,19 @@ void APlayerWONBridge::OpportunityAPI(FString Token, FClientDetails Details)
 			RewardObject->SetNumberField(TEXT("val"), Reward.Value);
 			RewardObject->SetNumberField(TEXT("d"), Reward.DecimalPointDigitFromRight);
 			RewardObject->SetNumberField(TEXT("t"), Reward.CurrencyType);
-
+	
 			TSharedRef<FJsonValueObject> RewardValue = MakeShareable(new FJsonValueObject(RewardObject));
 			RewardArray.Add(RewardValue);
 		}
-
+	
 		DetailsObject->SetArrayField(TEXT("rv"), RewardArray);
 	}
 	DetailsObject->SetNumberField(TEXT("gs"), Details.GameServer);
+	DetailsObject->SetNumberField(TEXT("lt"), Details.LimitTracking);
+	DetailsObject->SetNumberField(TEXT("gdpr"), Details.GDPR);
+	DetailsObject->SetNumberField(TEXT("gdpr_consent"), Details.GDPRConsent);
+	DetailsObject->SetBoolField(TEXT("media_files"), Details.MediaFiles);
+	DetailsObject->SetNumberField(TEXT("max_length"), Details.MaxLength);
 
 	FString ContentString;
 	TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&ContentString);
@@ -758,8 +809,8 @@ void APlayerWONBridge::SetAuthorizationToken(FString Token)
 		return;
 	}
 
-	AuthToken = TEXT("Bearer ");
-	AuthToken.Append(Token);
+
+	AuthToken = Token;
 
 	AuthorizationSuccessfulEvent.Broadcast(AuthToken);
 }
@@ -856,6 +907,9 @@ void APlayerWONBridge::SessionAPI(FString Token, FSessionDetails Details)
 	}
 	
 	DetailsObject->SetNumberField(TEXT("gs"), Details.GameServer);
+	DetailsObject->SetNumberField(TEXT("lt"), Details.LimitTracking);
+	DetailsObject->SetNumberField(TEXT("gdpr"), Details.GDPR);
+	DetailsObject->SetNumberField(TEXT("gdpr_consent"), Details.GDPRConsent);
 
 	FString ContentString;
 	TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&ContentString);

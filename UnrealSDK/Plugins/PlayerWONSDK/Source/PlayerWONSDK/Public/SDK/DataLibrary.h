@@ -703,6 +703,35 @@ const TMap<ESupportedCountries, FString> CountriesMap = {
 /*************************** Structs ***************************/
 
 USTRUCT(BlueprintType, Blueprintable)
+struct FAuthorizationToken
+{
+    GENERATED_BODY()
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    FString AccessToken;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    FString TokenType;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 ExpiresIn;
+
+    FAuthorizationToken()
+    {
+        AccessToken = FString(TEXT(""));
+        TokenType = FString(TEXT(""));
+        ExpiresIn = 0;
+    }
+
+    FAuthorizationToken(FString InToken, FString InType, int32 InExpires)
+    {
+        AccessToken = InToken;
+        TokenType = InType;
+        ExpiresIn = InExpires;
+    }
+};
+
+USTRUCT(BlueprintType, Blueprintable)
 struct FCurrency
 {
     GENERATED_BODY()
@@ -795,6 +824,21 @@ struct FClientDetails
 	UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
 	int32 GameServer;
 
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 LimitTracking;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 GDPR;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 GDPRConsent;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    bool MediaFiles;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 MaxLength;
+
     FClientDetails()
     {
         Country = CountriesMap[ESupportedCountries::CountryUnknown];
@@ -814,11 +858,16 @@ struct FClientDetails
         LifetimeSpending = 0;
         LifetimeSpendingValue = FCurrency();
         GameServer = 0;
+        LimitTracking = 0;
+        GDPR = 0;
+        GDPRConsent = 0;
+        MediaFiles = false;
+        MaxLength = 0;
     }
 
     FClientDetails(ESupportedCountries InCountry, FString InIDFA, ESupportedPlatform InPlatform, ESupportedLanguages InLanguage, FString InIP = "", int32 InWidth = 0, int32 InHeight = 0, FString InPlayerID = "",
         EPlayerIDType InPlayerIDType = EPlayerIDType::UnknownPIDType, FString InDevice = "", int32 InCOPPA = 0, int32 InUnderAge = 0, int32 InAge = 0, FString InSlotID = "", int32 InLifetimeSpending = 0, FCurrency InLifetimeSpendingValue = FCurrency(),
-        TArray<FCurrency> InRewardValues = TArray<FCurrency>(), int32 InGameServer = 0)
+        TArray<FCurrency> InRewardValues = TArray<FCurrency>(), int32 InGameServer = 0, int32 InLimitTracking = 0, int32 InGDPR = 0, int32 InGDPRConsent = 0, bool InMediaFiles = false, int32 InMaxLength = 0)
     {
         Country = CountriesMap[InCountry];
         IDFA = InIDFA;
@@ -837,6 +886,11 @@ struct FClientDetails
         LifetimeSpending = InLifetimeSpending;
         LifetimeSpendingValue = InLifetimeSpendingValue;
         RewardValues = InRewardValues;
+        LimitTracking = InLimitTracking;
+        GDPR = InGDPR;
+        GDPRConsent = InGDPRConsent;
+        MediaFiles = InMediaFiles;
+        MaxLength = InMaxLength;
     }
 
     bool IsValid()
@@ -933,6 +987,15 @@ struct FSessionDetails
     UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
     int32 GameServer;
 
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 LimitTracking;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 GDPR;
+
+    UPROPERTY(BlueprintReadOnly, Category = PLAYERWON)
+    int32 GDPRConsent;
+
     FSessionDetails()
     {
         Country = CountriesMap[ESupportedCountries::CountryUnknown];
@@ -951,10 +1014,14 @@ struct FSessionDetails
         LifetimeSpendingValue = FCurrency();
         PlayerFirstPlayedDate = "";
         GameServer = 0;
+        LimitTracking = 0;
+        GDPR = 0;
+        GDPRConsent = 0;
     }
 
     FSessionDetails(ESupportedCountries InCountry, ESupportedPlatform InPlatform, ESupportedLanguages InLanguage, FString InPlayerID = "", EPlayerIDType InPlayerIDType = EPlayerIDType::UnknownPIDType, FString InDevice = "", int32 InCOPPA = 0,
-        int32 InUnderAge = 0, int32 InAge = 0, int32 InMinAge = 0, int32 InMaxAge = 0, TEnumAsByte<EPlayerGender> InGender = EPlayerGender::n, int32 InLifetimeSpending = 0, FCurrency InLifetimeSpendingValue = FCurrency(), FString InPlayerFirstPlayedDate = "", int32 InGameServer = 0)
+        int32 InUnderAge = 0, int32 InAge = 0, int32 InMinAge = 0, int32 InMaxAge = 0, TEnumAsByte<EPlayerGender> InGender = EPlayerGender::n, int32 InLifetimeSpending = 0, FCurrency InLifetimeSpendingValue = FCurrency(), FString InPlayerFirstPlayedDate = "", int32 InGameServer = 0,
+        int32 InLimitTracking = 0, int32 InGDPR = 0, int32 InGDPRConsent = 0)
     {
         Country = CountriesMap[InCountry];
         Platform = PlatformMap[InPlatform];
@@ -972,6 +1039,9 @@ struct FSessionDetails
         LifetimeSpendingValue = InLifetimeSpendingValue;
         PlayerFirstPlayedDate = InPlayerFirstPlayedDate;
         GameServer = InGameServer;
+        LimitTracking = InLimitTracking;
+        GDPR = InGDPR;
+        GDPRConsent = InGDPRConsent;
     }
 
     bool IsValid()

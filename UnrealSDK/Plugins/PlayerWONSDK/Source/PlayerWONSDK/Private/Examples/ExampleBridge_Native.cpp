@@ -46,24 +46,31 @@ void AExampleBridge_Native::BeginPlay()
 		ExampleWidget = Cast<UExampleWidget_Native>(CreateWidget(GetWorld(), ExampleWidgetClass));
 		ExampleWidget->AddToViewport();
 
-		ExampleWidget->SetVisibilityAll(ESlateVisibility::Hidden);
+		if (!bUsePhysicalMedia)
+		{
+			ExampleWidget->SetVisibilityAll(ESlateVisibility::Hidden);
+		}
 
 		ExampleWidget->PlayButtonEvent.AddDynamic(this, &AExampleBridge_Native::PlayOpportunity);
 		ExampleWidget->StopButtonEvent.AddDynamic(this, &AExampleBridge_Native::StopAd);
 	}
 
-	AuthorizeClient("http://localhost:1337/login");
+	if (!bUsePhysicalMedia)
+	{
+		//The example uses phsyical media. To Authorize the client and receive paid ads, please contact info@playerwon.com
+		AuthorizeClient(FString(TEXT("Provided by PlayerWON")), FString(TEXT("Provided by PlayerWON")), FString(TEXT("Provided by PlayerWON")), FString(TEXT("Provided by PlayerWON")));
+	}
 
-	InitBridge("abcd1234");
+	InitBridge("abcd");
 }
 
 void AExampleBridge_Native::OnSuccessfulAuthorization(FString Token)
 {
 	FCurrency LifetimeSpending = FCurrency(ESupportedCurrencies::United_States_Dollar, 10000, 2, ECurrencyType::Real);
-	FSessionDetails ClientSession = FSessionDetails(ESupportedCountries::United_States, ESupportedPlatform::PC, ESupportedLanguages::English, "NativeExample", EPlayerIDType::Steam, "NativeExamplePC", 0, 0, 31, 0, 99, EPlayerGender::m, 1, LifetimeSpending, "20220101", 0);
+	FSessionDetails ClientSession = FSessionDetails(ESupportedCountries::United_States, ESupportedPlatform::Xbox, ESupportedLanguages::English, "NativeExample", EPlayerIDType::Steam, "NativeExamplePC", 0, 0, 31, 0, 99, EPlayerGender::m, 1, LifetimeSpending, "20220101", 0, 0, 0, 0);
 	CallSession(ClientSession, Token);
 
-	FClientDetails Client = FClientDetails(ESupportedCountries::United_States, "abcd1234", ESupportedPlatform::PC, ESupportedLanguages::English);
+	FClientDetails Client = FClientDetails(ESupportedCountries::United_States, "abcd", ESupportedPlatform::Xbox, ESupportedLanguages::English);
 	SetClientDetails(Client);
 	
 	RetrieveOpportunity(Token, Client);

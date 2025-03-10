@@ -33,11 +33,16 @@ class PLAYERWONSDK_API UPlayerWONFunctionLibrary : public UBlueprintFunctionLibr
 	* @param InLifetimeSpendingValue - The Currency value that the player has spent while playing the game
 	* @param InRewardValues - The rewards the player will recieve upon watching an Ad
 	* @param InGameServer - Is this being called by the game server?  0 means no, 1 means yes
+	* @param InLimitTracking - Indicates the player/client has opted for limited tracking
+	* @param InGDPR - Indicates the player/client is in a country under GDPR jurisdiction
+	* @param InGDPRConsent - Indicates the player/client has given consent. Only valid if GDPR is 1
+	* @param InMediaFiles - True indicates all encoded video URLs should be returned
+	* @param InMaxLength - Indicates the maximum time, in seconds, for an ad to play
 	*/
-	UFUNCTION(BlueprintCallable, Category = PLAYERWON, meta = (DisplayName = "CreateClientDetails", AutoCreateRefTerm = "InWidth, InHeight, InPlayerID, InPlayerIDType, InDevice, InCOPPA, InUnderAge, InAge, InSlotID, InLifetimeSpending, InLifetimeSpendingValue, InRewardValues, InGameServer", AdvancedDisplay=5))
+	UFUNCTION(BlueprintCallable, Category = PLAYERWON, meta = (DisplayName = "CreateClientDetails", AutoCreateRefTerm = "InWidth, InHeight, InPlayerID, InPlayerIDType, InDevice, InCOPPA, InUnderAge, InAge, InSlotID, InLifetimeSpending, InLifetimeSpendingValue, InRewardValues, InGameServer, InLt, InGDPR, InGDPRConsent, InMediaFiles, InMaxLength", AdvancedDisplay=5))
 	static FClientDetails k2_CreateClientDetails(ESupportedCountries InCountry, FString InIDFA, ESupportedPlatform InPlatform, ESupportedLanguages InLanguage, FString InIP, int32 InWidth, int32 InHeight, FString InPlayerID,
 		EPlayerIDType InPlayerIDType, FString InDevice, int32 InCOPPA, int32 InUnderAge, int32 InAge, FString InSlotID, int32 InLifetimeSpending, FCurrency InLifetimeSpendingValue,
-		TArray<FCurrency> InRewardValues, int32 InGameServer);
+		TArray<FCurrency> InRewardValues, int32 InGameServer, int32 InLimitTracking, int32 InGDPR, int32 InGDPRConsent, bool InMediaFiles, int32 InMaxLength);
 
 	/* Blueprint specific version of CreateSessionDetails with defaulted values 
 	* @param InCountry - The player's country
@@ -56,11 +61,14 @@ class PLAYERWONSDK_API UPlayerWONFunctionLibrary : public UBlueprintFunctionLibr
 	* @param InLifetimeSpendingValue - The Currency value the player has spent in the game
 	* @param InPlayerFirstPlayerDate - The date formatted yyyy-mm-dd that the player started playing the game
 	* @param InGameServer - is this called on a game server? 0 means no, 1 means yes
+	* @param InLimitTracking - Indicates the player/client has opted for limited tracking
+	* @param InGDPR - Indicates the player/client is in a country under GDPR jurisdiction
+	* @param InGDPRConsent - Indicates the player/client has given consent. Only valid if GDPR is 1
 	*/
-	UFUNCTION(BlueprintCallable, Category = PLAYERWON, meta = (DisplayName = "CreateSessionDetails", AutoCreateRefTerm = "InPlayerID, InPlayerIDType, InDevice, InCOPPA, InUnderAge, InMinAge, InMaxAge, InGender, InLifetimeSpending, InLifetimeSpendingValue, InPlayerFirstPlayedDate, InGameServer", AdvancedDisplay=3))
+	UFUNCTION(BlueprintCallable, Category = PLAYERWON, meta = (DisplayName = "CreateSessionDetails", AutoCreateRefTerm = "InPlayerID, InPlayerIDType, InDevice, InCOPPA, InUnderAge, InMinAge, InMaxAge, InGender, InLifetimeSpending, InLifetimeSpendingValue, InPlayerFirstPlayedDate, InGameServer, InLimitTracking, InGDPR, InGDPRConsent", AdvancedDisplay=3))
 	static FSessionDetails k2_CreateSessionDetails(ESupportedCountries InCountry, ESupportedPlatform InPlatform, ESupportedLanguages InLanguage, FString InPlayerID, EPlayerIDType InPlayerIDType,
 		FString InDevice, int32 InCOPPA, int32 InUnderAge, int32 InAge, int32 InMinAge, int32 InMaxAge, EPlayerGender InGender, int32 InLifetimeSpending, FCurrency InLifetimeSpendingValue,
-		FString InPlayerFirstPlayedDate, int32 InGameServer);
+		FString InPlayerFirstPlayedDate, int32 InGameServer, int32 InLimitTracking, int32 InGDPR, int32 InGDPRConsent);
 
 	/* Blueprint specific version of CreateCurrency with defaulted values
 	* @param InCurrencyName - The name of the Currency.  If in-game currency, use in-game
