@@ -1,3 +1,5 @@
+// Copyright of PlayerWON 2022
+
 #pragma once
 
 //Epic
